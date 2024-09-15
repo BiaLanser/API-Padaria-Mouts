@@ -1,4 +1,7 @@
 
+using API_Padaria_Mouts.Repositories;
+using API_Padaria_Mouts.Services;
+
 namespace API_Padaria_Mouts
 {
     public class Program
@@ -13,6 +16,8 @@ namespace API_Padaria_Mouts
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<CustomerService>();
+            builder.Services.AddScoped<CustomerRepository>();
 
             var app = builder.Build();
 

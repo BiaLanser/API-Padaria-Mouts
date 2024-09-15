@@ -34,6 +34,7 @@ namespace API_Padaria_Mouts.Controllers
             return Ok(_service.FindAll());
         }
 
+
         [HttpDelete("/{id}")]
         public IActionResult Delete(int id)
         {
