@@ -11,14 +11,15 @@ namespace API_Padaria_Mouts.Repositories
         {
             try
             {
-                string insertQuery = "INSERT INTO customers (name, document) VALUES (@name, @document) RETURNING id";
+                string insertQuery = "INSERT INTO customers (id, name, document) VALUES (@id, @name, @document) RETURNING id";
                 using (var connection = new NpgsqlConnection(connectionString))
                 using (var command = new NpgsqlCommand(insertQuery, connection))
                 {
                     connection.Open();
-                    command.Parameters.AddWithValue("@name", t.Name);
+					command.Parameters.AddWithValue("@id", t.Id);
+					command.Parameters.AddWithValue("@name", t.Name);
                     command.Parameters.AddWithValue("@document", t.Document);
-                    t.Id = (int)command.ExecuteScalar();
+                    command.ExecuteScalar();
 
                 }
                 return t;
