@@ -18,6 +18,8 @@ namespace API_Padaria_Mouts
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<CustomerService>();
             builder.Services.AddScoped<CustomerRepository>();
+            builder.Services.AddScoped<SaleService>();
+            builder.Services.AddScoped<SalesRepository>();
 
             var app = builder.Build();
 

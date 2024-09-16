@@ -4,20 +4,21 @@ using Npgsql;
 
 namespace API_Padaria_Mouts.Repositories
 {
-    public class CustomerRepository : IRepository<Customer>
+    public class SalesRepository : IRepository<Sale>
     {
         private string connectionString = "Host=dpg-crgv7h3v2p9s73du0520-a.oregon-postgres.render.com;Port=5432;Username=apimaster;Password=JxY9V1tkJkja1JLIsiPtU4Ze2y8HZ8tM;Database=api_padaria";
-        public Customer Create(Customer t)
+        public Sale Create(Sale t)
         {
             try
             {
-                string insertQuery = "INSERT INTO customers (name, document) VALUES (@name, @document) RETURNING id";
+                string insertQuery = "INSERT INTO sales (customer_id, points, final_price) VALUES (@customer_id, @points, @final_price) RETURNING id";
                 using (var connection = new NpgsqlConnection(connectionString))
                 using (var command = new NpgsqlCommand(insertQuery, connection))
                 {
                     connection.Open();
-                    command.Parameters.AddWithValue("@name", t.Name);
-                    command.Parameters.AddWithValue("@document", t.Document);
+                    command.Parameters.AddWithValue("@customer_id", t.CustomerId);
+                    command.Parameters.AddWithValue("@points", t.Points);
+                    command.Parameters.AddWithValue("@final_price", t.FinalPrice);
                     t.Id = (int)command.ExecuteScalar();
 
                 }
@@ -33,7 +34,7 @@ namespace API_Padaria_Mouts.Repositories
         {
             try
             {
-                string deleteQuery = "DELETE FROM customers WHERE id = @id";
+                string deleteQuery = "DELETE FROM sales WHERE id = @id";
                 using (var connection = new NpgsqlConnection(connectionString))
                 using (var command = new NpgsqlCommand(deleteQuery, connection))
                 {
@@ -49,12 +50,12 @@ namespace API_Padaria_Mouts.Repositories
             }
         }
 
-        public List<Customer> FindAll()
+        public List<Sale> FindAll()
         {
-            var customers = new List<Customer>();
+            var sales = new List<Sale>();
             try
             {
-                string findAllQuery = "SELECT id, name, document FROM customers";
+                string findAllQuery = "SELECT id, customer_id, points, final_price FROM sales";
                 using (var connection = new NpgsqlConnection(connectionString))
                 using (var command = new NpgsqlCommand(findAllQuery, connection))
                 {
@@ -63,11 +64,12 @@ namespace API_Padaria_Mouts.Repositories
                     {
                         while (reader.Read())
                         {
-                            customers.Add(new Customer
+                            sales.Add(new Sale
                             {
                                 Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                                Document = reader.GetString(2)
+                                CustomerId = reader.GetInt32(1),
+                                FinalPrice = reader.GetDecimal(2),
+                                Points = reader.GetInt32(3)
                             });
                         }
                     }
@@ -78,15 +80,15 @@ namespace API_Padaria_Mouts.Repositories
             {
                 throw new Exception(e.Message);
             }
-            return customers;
+            return sales;
         }
 
-        public Customer FindById(int id)
+        public Sale FindById(int id)
         {
-            Customer customer = null;
+            Sale sales = null;
             try
             {
-                string findByIdQuery = "SELECT id, name, document FROM customers WHERE id = @id";
+                string findByIdQuery = "SELECT id, customer_id, points, final_price FROM sales WHERE id = @id";
                 using (var connection = new NpgsqlConnection(connectionString))
                 using (var command = new NpgsqlCommand(findByIdQuery, connection))
                 {
@@ -96,11 +98,11 @@ namespace API_Padaria_Mouts.Repositories
                     {
                         if (reader.Read())
                         {
-                            customer = new Customer
+                            sales = new Sale
                             {
                                 Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                                Document = reader.GetString(2),
+                                CustomerId = reader.GetInt32(1),
+                                FinalPrice = reader.GetDecimal(2),
                                 Points = reader.GetInt32(3)
                             };
                         }
@@ -112,20 +114,21 @@ namespace API_Padaria_Mouts.Repositories
             {
                 throw new Exception(e.Message);
             }
-            return customer;
+            return sales;
         }
 
-        public Customer Update(Customer t)
+        public Sale Update(Sale t)
         {
             try
             {
-                string updateQuery = "UPDATE customers SET name = @name, document = @document WHERE id = @id";
+                string updateQuery = "UPDATE sales SET customer_id = @customer_id, points = @points, final_price = @final_price WHERE id = @id";
                 using (var connection = new NpgsqlConnection(connectionString))
                 using (var command = new NpgsqlCommand(updateQuery, connection))
                 {
                     connection.Open();
-                    command.Parameters.AddWithValue("@name", t.Name);
-                    command.Parameters.AddWithValue("@document", t.Document);
+                    command.Parameters.AddWithValue("@customer_id", t.CustomerId);
+                    command.Parameters.AddWithValue("@points", t.Points);
+                    command.Parameters.AddWithValue("@final_price", t.FinalPrice);
                     command.Parameters.AddWithValue("@id", t.Id);
                     command.ExecuteNonQuery();
                 }

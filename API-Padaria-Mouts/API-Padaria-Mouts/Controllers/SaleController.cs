@@ -6,20 +6,19 @@ namespace API_Padaria_Mouts.Controllers
 {
     [ApiController]
     [Route("api/v1/[Controller]")]
-    public class CustomerController : ControllerBase
+    public class SaleController : ControllerBase
     {
-        private readonly CustomerService _service;
-        public CustomerController(CustomerService service)
+        private readonly SaleService _service;
+        public SaleController(SaleService service)
         {
             _service = service;
         }
-
         [HttpPost]
-        public IActionResult Post([FromBody] Customer customer)
+        public IActionResult Post([FromBody] Sale sale)
         {
             try
             {
-                return StatusCode(201, _service.Create(customer));
+                return StatusCode(201, _service.Create(sale));
             }
             catch (Exception ex)
             {
@@ -63,12 +62,12 @@ namespace API_Padaria_Mouts.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Customer customer)
+        public IActionResult Put(int id, [FromBody] Sale sale)
         {
             try
             {
-                _service.Update(customer);
-                return StatusCode(200, "Customer successfully updated");
+                _service.Update(sale);
+                return StatusCode(200, "Sale successfully updated");
             }
             catch (Exception ex)
             {
