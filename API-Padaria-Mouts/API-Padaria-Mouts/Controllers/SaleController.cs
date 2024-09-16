@@ -74,5 +74,19 @@ namespace API_Padaria_Mouts.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("{document}")] 
+        public IActionResult GetByDocument(string document)
+        {
+            try
+            {
+                var sales = _service.GetSalesByDocument(document);
+                return Ok(sales);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

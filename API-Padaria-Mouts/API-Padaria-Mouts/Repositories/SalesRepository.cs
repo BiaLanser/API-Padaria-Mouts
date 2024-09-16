@@ -140,5 +140,42 @@ namespace API_Padaria_Mouts.Repositories
                 throw new Exception(e.Message);
             }
         }
+
+        public List<Sale> FindByDocument(string document)
+        {
+            var sales = new List<Sale>();
+            try
+            {
+                string query = @"SELECT s.id, s.customer_id, s.points, s.final_price FROM sales s
+                JOIN customers c ON s.customer_id = c.id
+                WHERE c.document = @document";
+
+                using (var connection = new NpgsqlConnection(connectionString))
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    connection.Open();
+                    command.Parameters.AddWithValue("@document", document);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            sales.Add(new Sale
+                            {
+                                Id = reader.GetInt32(0),
+                                CustomerId = reader.GetInt32(1),
+                                FinalPrice = reader.GetDecimal(2),
+                                Points = reader.GetInt32(3)
+                                
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return sales;
+        }
     }
 }

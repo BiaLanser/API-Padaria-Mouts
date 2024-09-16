@@ -42,5 +42,11 @@ namespace API_Padaria_Mouts.Services
             Get(sale.Id);
             _repo.Update(sale);
         }
+
+        public List<Sale> GetSalesByDocument(string document)
+        {
+            return _repo.FindByDocument(document);
+        }
+
     }
 }
