@@ -7,7 +7,7 @@ namespace API_Padaria_Mouts.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int CustomerId { get; set; }
-        public decimal FinalPrice { get; set; }
+        public double FinalPrice { get; set; }
         public int Points { get; set; }
     }
 }
