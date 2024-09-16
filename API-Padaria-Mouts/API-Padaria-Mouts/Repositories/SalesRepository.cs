@@ -103,8 +103,8 @@ namespace API_Padaria_Mouts.Repositories
                             {
                                 Id = reader.GetInt32(0),
                                 CustomerId = reader.GetInt32(1),
-                                FinalPrice = reader.GetDouble(2),
-                                Points = reader.GetInt32(3)
+                                Points = reader.GetInt32(2),
+                                FinalPrice = reader.GetDouble(3)
                             };
                         }
                     }
@@ -164,9 +164,8 @@ namespace API_Padaria_Mouts.Repositories
                             {
                                 Id = reader.GetInt32(0),
                                 CustomerId = reader.GetInt32(1),
-                                FinalPrice = reader.GetDouble(2),
-                                Points = reader.GetInt32(3)
-                                
+                                Points = reader.GetInt32(2),
+                                FinalPrice = reader.GetDouble(3)
                             });
                         }
                     }

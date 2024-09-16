@@ -101,8 +101,7 @@ namespace API_Padaria_Mouts.Repositories
                             {
                                 Id = reader.GetInt32(0),
                                 Name = reader.GetString(1),
-                                Document = reader.GetString(2),
-                                Points = reader.GetInt32(3)
+                                Document = reader.GetString(2)
                             };
                         }
                     }

@@ -2,6 +2,9 @@
 using API_Padaria_Mouts.Services;
 using Microsoft.AspNetCore.Mvc;
 
+//
+using System.Text.RegularExpressions;
+
 namespace API_Padaria_Mouts.Controllers
 {
     [ApiController]
@@ -75,7 +78,7 @@ namespace API_Padaria_Mouts.Controllers
             }
         }
 
-        [HttpGet("{document}")] 
+        [HttpGet("document/{document}")] 
         public IActionResult GetByDocument(string document)
         {
             try
